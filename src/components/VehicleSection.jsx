@@ -51,7 +51,7 @@ const commercialSections = [
 export default function VehicleSection() {
   const [isVisible, setIsVisible] = useState(false);
   const [showFullContent, setShowFullContent] = useState(false);
-  const [activeCategory, setActiveCategory] = useState('commercial'); 
+  const [activeCategory, setActiveCategory] = useState('passenger'); 
   const [activeVideoIndex, setActiveVideoIndex] = useState(0); 
   const [isPlaying, setIsPlaying] = useState(true); 
 
