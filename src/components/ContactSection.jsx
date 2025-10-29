@@ -11,7 +11,6 @@ export default function ContactSection() {
   });
   const [errors, setErrors] = useState({});
 
-  // Validation
   const validate = () => {
     const newErrors = {};
     if (!formData.fullName.trim()) newErrors.fullName = "Name is required.";
@@ -31,7 +30,7 @@ export default function ContactSection() {
       setErrors(validationErrors);
     } else {
       setErrors({});
-      alert("Message sent successfully (Demo)");
+      alert("Message sent successfully (Demo)"); 
     }
   };
 
@@ -42,128 +41,89 @@ export default function ContactSection() {
   return (
     <section
       id="contact"
-      className="bg-[#006ABC] min-h-screen text-white py-20 px-4 md:px-12"
+      className="bg-[#006ABC] min-h-screen text-white py-20 px-4 md:px-12 lg:px-20 relative" 
+      style={{ backgroundColor: '#006ABC' }}
     >
-      <div className="container mx-auto grid grid-cols-12 gap-8">
-        <div className="hidden lg:block lg:col-span-1"></div>
-
-        <div className="col-span-12 lg:col-span-3 flex flex-col justify-center">
-          <h2 className="text-4xl md:text-5xl font-normal border-b-2 border-white/50 pb-2 mb-8 inline-block">
+      <div className="container mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-x-20 gap-y-12 max-w-screen-xl"> 
+        
+        <div className="col-span-full md:col-span-1 lg:col-span-5 pt-0 lg:pt-16">
+          
+          <p className="text-2xl md:text-3xl lg:text-4xl font-normal relative pb-2 mb-10 inline-block">
             Get in touch
-          </h2>
-          <p className="text-xl font-light mb-8">For general enquiries</p>
+            <span className="absolute left-0 bottom-0 w-1/4 border-b border-white/95"></span>
+          </p>
+          
+          <p className="text-xl md:text-2xl font-light mb-12 opacity-90">For general enquiries</p>
 
-          <div className="space-y-6 text-white/90 text-lg">
+          <div className="space-y-12 text-white text-lg md:text-xl font-light"> 
+            
             <div>
-              <p className="font-semibold mb-1">Address :</p>
-              <p className="font-light">
+              <p className="font-normal opacity-90 mb-1">Address</p>
+              <p className="font-normal leading-relaxed opacity-95">
                 110, 16th Road, Chembur, Mumbai - 400071
               </p>
             </div>
 
             <div>
-              <p className="font-semibold mb-1">Phone :</p>
-              <p className="font-light">+91 22 25208822</p>
+              <p className="font-normal opacity-90 mb-1">Phone</p>
+              <p className="font-normal opacity-95">+91 22 25208822</p>
             </div>
 
             <div>
-              <p className="font-semibold mb-1">Email :</p>
-              <p className="font-light">info@supremegroup.co.in</p>
+              <p className="font-normal opacity-90 mb-1">Email</p>
+              <p className="font-normal opacity-95">info@supremegroup.co.in</p>
             </div>
           </div>
         </div>
 
-        <div className="hidden lg:block lg:col-span-2"></div>
+        <div className="col-span-full md:col-span-1 lg:col-span-6 pt-0 lg:pt-16">
+          <form onSubmit={handleSubmit} className="space-y-10 md:space-y-12">
+            
+            {[
+              { id: 'fullName', type: 'text', placeholder: 'Full name' },
+              { id: 'email', type: 'email', placeholder: 'Email' },
+              { id: 'company', type: 'text', placeholder: 'Company' },
+            ].map(({ id, type, placeholder }) => (
+              <div key={id}>
+                <input
+                  id={id}
+                  name={id}
+                  type={type}
+                  placeholder={placeholder}
+                  value={formData[id]}
+                  onChange={handleChange}
+                  className={`w-full bg-transparent border-b border-white/60 focus:border-white text-white placeholder-white/80 focus:outline-none pt-1 pb-1 text-lg md:text-xl`}
+                />
+                
+                {errors[id] && (
+                  <p id={`${id}-error`} className="text-red-500 text-sm mt-1">{errors[id]}</p>
+                )}
+              </div>
+            ))}
 
-        <div className="col-span-12 lg:col-span-5">
-          <form onSubmit={handleSubmit} className="space-y-6">
-            <div>
-              <label htmlFor="fullName" className="sr-only">
-                Full name
-              </label>
-              <input
-                id="fullName"
-                name="fullName"
-                type="text"
-                placeholder="Full name"
-                value={formData.fullName}
-                onChange={handleChange}
-                className={`w-full bg-transparent border-b text-white placeholder-white/80 focus:outline-none py-2 text-lg ${
-                  errors.fullName ? "border-red-500" : "border-white/80"
-                }`}
-              />
-              {errors.fullName && (
-                <p className="text-red-500 text-sm mt-1">{errors.fullName}</p>
-              )}
-            </div>
-
-            <div>
-              <label htmlFor="email" className="sr-only">
-                Email
-              </label>
-              <input
-                id="email"
-                name="email"
-                type="email"
-                placeholder="Email"
-                value={formData.email}
-                onChange={handleChange}
-                className={`w-full bg-transparent border-b text-white placeholder-white/80 focus:outline-none py-2 text-lg ${
-                  errors.email ? "border-red-500" : "border-white/80"
-                }`}
-              />
-              {errors.email && (
-                <p className="text-red-500 text-sm mt-1">{errors.email}</p>
-              )}
-            </div>
-
-            <div>
-              <label htmlFor="company" className="sr-only">
-                Company
-              </label>
-              <input
-                id="company"
-                name="company"
-                type="text"
-                placeholder="Company"
-                value={formData.company}
-                onChange={handleChange}
-                className={`w-full bg-transparent border-b text-white placeholder-white/80 focus:outline-none py-2 text-lg ${
-                  errors.company ? "border-red-500" : "border-white/80"
-                }`}
-              />
-              {errors.company && (
-                <p className="text-red-500 text-sm mt-1">{errors.company}</p>
-              )}
-            </div>
-
-            <div>
-              <label htmlFor="message" className="sr-only">
-                Message
-              </label>
+            <div className="pt-2"> 
               <textarea
                 id="message"
                 name="message"
                 placeholder="Message"
-                rows="3"
+                rows="2" 
                 value={formData.message}
                 onChange={handleChange}
-                className="w-full bg-transparent border-b border-white/80 text-white placeholder-white/80 focus:outline-none py-2 text-lg resize-none"
+                className="w-full bg-transparent border-b border-white/60 focus:border-white text-white placeholder-white/80 focus:outline-none pt-1 pb-1 text-lg md:text-xl resize-none"
               ></textarea>
             </div>
 
-            <div className="pt-4">
+            <div className="pt-8 flex justify-start">
               <button
                 type="submit"
-                className="inline-block px-8 py-3 text-lg border-2 border-white/80 text-white rounded-full hover:bg-white hover:text-blue-600 transition duration-300"
+                className="inline-block px-12 py-3 text-lg md:text-xl border border-white text-white rounded-full hover:bg-white hover:text-[#006ABC] transition duration-300"
               >
                 Send
               </button>
             </div>
           </form>
         </div>
-
-        <div className="hidden lg:block lg:col-span-1"></div>
+       
       </div>
     </section>
   );
