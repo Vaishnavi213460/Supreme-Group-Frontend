@@ -1,82 +1,119 @@
-import Image from 'next/image';
-import React from 'react';
+"use client"; 
+import React, { useState, useEffect } from "react";
 
-const footerLinks = [
+const linkGroups = [
   {
-    title: 'APPLICATIONS',
+    title: "Applications",
     links: [
-      { name: 'Apparel', href: '#' },
-      { name: 'Automotive', href: '#' },
-      { name: 'Filtration', href: '#' },
-      { name: 'Customised Nonwoven', href: '#' },
+      { text: "Apparel", href: "/applications/apparel" },
+      { text: "Automotive", href: "/applications/automotive" },
+      { text: "Filtration", href: "/applications/filtration" },
+      { text: "Customised Nonwoven", href: "/applications/customised-nonwoven" },
     ],
+    titleClasses: "font-semibold uppercase text-opacity-90",
   },
   {
-    title: 'COMPANY',
+    title: "Company",
     links: [
-      { name: 'Who We Are', href: '#' },
-      { name: 'Global Compentency', href: '#' }, 
-      { name: 'Innovation', href: '#' },
-      { name: 'ESG Impact', href: '#' },
+      { text: "Who We Are", href: "/who-we-are" },
+      { text: "Global Compentency", href: "/global-competency" },
+      { text: "Innovation", href: "/innovation" },
+      { text: "ESG Impact", href: "/esg-impact" },
     ],
+    titleClasses: "uppercase font-bold",
   },
   {
-    title: 'MORE',
+    title: "More",
     links: [
-      { name: 'Contact Us', href: '#' },
-      { name: 'Careers', href: '#' },
+      { text: "Contact Us", href: "/contact-us" },
+      { text: "Careers", href: "/careers" },
     ],
+    titleClasses: "font-semibold uppercase text-opacity-90",
   },
   {
-    title: 'FOLLOW US',
+    title: "Follow Us",
     links: [
-      { name: 'LinkedIn', href: '#' },
+      {
+        text: "LinkedIn",
+        href: "https://www.linkedin.com/company/supreme-group-company/",
+        external: true,
+        linkClasses:
+          "block text-black text-opacity-70 hover:text-opacity-100 whitespace-nowrap text-base font-normal transition-all duration-300",
+      },
     ],
+    titleClasses: "font-semibold uppercase text-opacity-90",
   },
 ];
 
-export default function Footer() {
+const FooterLinkGroup = ({ title, links, titleClasses }) => {
+  const commonLinkClasses =
+    "text-base text-black block whitespace-nowrap text-opacity-70 hover:text-opacity-100 focus:outline-none underline-offset-4 transition-all duration-300";
+
   return (
-    <footer className="w-full bg-gray-50/50" style={{ backgroundImage: 'radial-gradient(circle at 100% 100%, #e6f7ff, #ffffff 60%)' }}>
-      <div className="container mx-auto px-4 md:px-6 py-16 text-gray-800">
+    <ul className="grid sm:gap-5 gap-3 text-black list-none">
+      <li className={`mb-2 text-base ${titleClasses}`}>{title}</li>
+      {links.map((link) => (
+        <li key={link.text}>
+          <a
+            href={link.href}
+            target={link.external ? "_blank" : "_self"}
+            rel={link.external ? "noopener noreferrer" : undefined}
+            className={link.linkClasses ? link.linkClasses : commonLinkClasses}
+          >
+            {link.text}
+          </a>
+        </li>
+      ))}
+    </ul>
+  );
+};
 
-        <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-y-10 md:gap-y-0 md:gap-x-12 pb-12 border-b border-gray-300/50">
+export default function Footer() {
+  const [currentYear, setCurrentYear] = useState("");
 
-          <div className="md:col-span-1 col-span-2">
-            <Image src="/logo.svg" alt="Supreme Group Logo" width={180} height={36} />
-          </div>
+  useEffect(() => {
+    setCurrentYear(new Date().getFullYear().toString());
+  }, []);
 
-          {footerLinks.map((section) => (
-            <div key={section.title} className="col-span-1">
-              <h3 className="uppercase font-bold text-sm mb-4 text-gray-700">
-                {section.title}
-              </h3>
-              <ul className="space-y-3">
-                {section.links.map((link) => (
-                  <li key={link.name}>
-                    <a
-                      href={link.href}
-                      className="text-gray-800 hover:text-blue-500 transition duration-150 text-base font-normal"
-                    >
-                      {link.name}
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </div>
+  return (
+    <footer className="w-full pt-10 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-white to-blue-50/50">
+      <div className="max-w-7xl mx-auto">
+        <div className="pb-8">
+          <img src="/logo.svg" alt="Supreme Group Logo" className="h-12" />
+        </div>
+
+        <div className="hidden md:flex flex-row items-start justify-between md:pr-10 lg:gap-20 sm:gap-10 gap-4 mt-8 pb-16">
+          {linkGroups.map((group, index) => (
+            <FooterLinkGroup
+              key={index}
+              title={group.title}
+              links={group.links}
+              titleClasses={group.titleClasses}
+            />
           ))}
         </div>
 
-        <div className="flex flex-col md:flex-row justify-between items-center pt-8 text-sm text-gray-600 space-y-4 md:space-y-0">
-          
-          <p>
-            ©{new Date().getFullYear()}. All Rights Reserved.
-          </p>
+        <div className="md:hidden block space-y-8 pt-8 pb-8">
+          {linkGroups.map((group, index) => (
+            <FooterLinkGroup
+              key={index}
+              title={group.title}
+              links={group.links}
+              titleClasses={group.titleClasses}
+            />
+          ))}
+        </div>
 
-          <p>
+        <div className="flex gap-3 md:flex-row flex-col justify-between items-center py-6">
+          <h6 className="md:block hidden text-sm text-black whitespace-nowrap">
+            ©{currentYear}. All Rights Reserved.
+          </h6>
+          <h6 className="md:block hidden text-sm text-black whitespace-nowrap">
             Supreme House, 110, 16th Road, Chembur, Mumbai – 400071.
-          </p>
-
+          </h6>
+          <h6 className="md:hidden block text-sm text-black whitespace-nowrap">
+            ©{currentYear}. All Rights Reserved.
+          </h6>
         </div>
       </div>
     </footer>
